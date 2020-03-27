@@ -3,6 +3,7 @@ import 'package:babyfeed/helpers/DatabaseHelper.dart';
 import 'package:babyfeed/models/Bottle.dart';
 import 'package:babyfeed/models/Meal.dart';
 import 'package:flutter/material.dart';
+import 'package:babyfeed/config/globals.dart' as globals;
 
 class GraphsPage extends StatefulWidget {
   GraphsPage({Key key}) : super(key: key);
@@ -21,7 +22,7 @@ class _GraphsPageState extends State<GraphsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Baby Feed")
+        title: Text(globals.appTitle)
       ),
       bottomNavigationBar: CustomBottomMenu(1),
       body: Center(

@@ -1,7 +1,7 @@
 class Meal {
   int id;
   int totalQuantity;
-  DateTime datetime;
+  String datetime;
   bool hasIndus;
   int indusQuantity;
 
@@ -10,7 +10,7 @@ class Meal {
   Meal.fromMap(Map<String, dynamic> map) {
     id = map["_id"];
     totalQuantity = map["totalQuantity"];
-    datetime = DateTime.parse(map["datetime"]);
+    datetime = map["datetime"];
     hasIndus = map["hasIndus"] == 1 ? true : false;
     indusQuantity = map["indusQuantity"];
   }
@@ -18,7 +18,7 @@ class Meal {
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       "totalQuantity": totalQuantity,
-      "datetime": datetime.toString(),
+      "datetime": datetime,
       "hasIndus": hasIndus ? 1 : 0,
       "indusQuantity": indusQuantity
     };

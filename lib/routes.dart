@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'screens/DataEntryPage.dart';
+import 'screens/DataEntryPage/DataEntryPage.dart';
 import 'screens/GraphsPage.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{

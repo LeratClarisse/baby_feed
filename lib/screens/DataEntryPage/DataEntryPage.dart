@@ -1,4 +1,5 @@
 import 'package:babyfeed/components/CustomBottomMenu.dart';
+import 'package:babyfeed/components/CustomHamMenu.dart';
 import 'package:babyfeed/config/globals.dart' as globals;
 import 'package:babyfeed/helpers/DatabaseHelper.dart';
 import 'package:babyfeed/screens/DataEntryPage/components/AddPopup.dart';
@@ -23,6 +24,7 @@ class _DataEntryPageState extends State<DataEntryPage> {
       appBar: AppBar(
           title: Text(globals.appTitle)
       ),
+      drawer: CustomHamMenu(),
       bottomNavigationBar: CustomBottomMenu(0),
       body: Center(
         child: Column(

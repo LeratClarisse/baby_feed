@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:babyfeed/models/Bottle.dart';
-import 'package:babyfeed/models/Meal.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -35,7 +34,7 @@ class DatabaseHelper {
   // SQL string to create the database
   Future _onCreate(Database db, int version) async {
     await db.execute("CREATE TABLE bottles (_id INTEGER PRIMARY KEY, quantity INTEGER NOT NULL, datetime TEXT NOT NULL)");
-    await db.execute("CREATE TABLE meals (_id INTEGER PRIMARY KEY, totalQuantity INTEGER NOT NULL, datetime TEXT NOT NULL, hasIndus INTEGER NOT NULL, indusQuantity INTEGER)");
+    await db.execute("CREATE TABLE meals (_id INTEGER PRIMARY KEY, quantity INTEGER NOT NULL, datetime TEXT NOT NULL)");
   }
 
   Future dropDatabase() async {
@@ -51,37 +50,37 @@ class DatabaseHelper {
     return id;
   }
 
-  Future<int> insertMeal(Meal meal) async {
+  Future<int> insertMeal(Bottle meal) async {
     Database db = await database;
     int id = await db.insert("meals", meal.toMap());
     return id;
   }
 
-  Future<List<Bottle>> queryAllBottles() async {
+  Future<List<Bottle>> queryAll(bool isMeal) async {
     Database db = await database;
-    List<Map> maps = await db.query("bottles",
-        columns: ["_id", "quantity", "datetime"]);
+    String table = "";
+
+    if (isMeal){
+      table = "meals";
+    } else {
+      table = "bottles";
+    }
+
+    List<Map> maps = await db.query(table, columns: ["_id", "quantity", "datetime"]);
+
     if (maps.length > 0) {
       List<Bottle> bottles = new List<Bottle>();
       maps.forEach((bottle){
         bottles.add(Bottle.fromMap(bottle));
       });
       return bottles;
+    } else {
+      List<Bottle> bottles = new List<Bottle>();
+      Bottle fakeBottle = new Bottle();
+      fakeBottle.quantity = -1;
+      fakeBottle.datetime = DateTime.now();
+      bottles.add(fakeBottle);
+      return bottles;
     }
-    return null;
-  }
-
-  Future<List<Meal>> queryAllMeals() async {
-    Database db = await database;
-    List<Map> maps = await db.query("meals",
-        columns: ["_id", "totalQuantity", "datetime", "hasIndus", "indusQuantity"]);
-    if (maps.length > 0) {
-      List<Meal> meals = new List<Meal>();
-      maps.forEach((meal){
-        meals.add(Meal.fromMap(meal));
-      });
-      return meals;
-    }
-    return null;
   }
 }
